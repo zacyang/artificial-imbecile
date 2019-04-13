@@ -15,11 +15,11 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
-
-
-
-
-
+tmp = arrayfun(@sigmoid, X * theta);
+% not sure can reduce to oneline , the following just up date anything >= 0.5 to 1 and < 0.5 to 0
+tmp(tmp >= 0.5) = 1;
+tmp(tmp < 0.5) = 0;
+p = tmp;
 
 % =========================================================================
 
