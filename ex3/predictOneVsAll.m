@@ -31,6 +31,11 @@ X = [ones(m, 1) X];
 %       
 
 
+% this will be sampel * pred (5000 * 10)
+h = sigmoid(X * all_theta');
+[maxH, imaxH] = max(h');
+p = imaxH';
+
 
 
 
