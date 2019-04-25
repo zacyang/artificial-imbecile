@@ -52,13 +52,8 @@ h=  sigmoid(outputOfLayer2 * Theta2');
 yVec = repmat([1:num_labels], m, 1) == repmat(y, 1, num_labels);
 
 cost = -yVec .* log(h) - (1 - yVec) .* log(1 - h);
-J = sum(sum(cost))/m;
 
-% set first coulmn to 0 when caculate cost 
-lengthOfTheta1 = length(Theta1);
-lengthOfTheta2 = length(Theta2);
-first_theta_to_zeror = [  zeros(1, lengthOfTheta1-1) ; Theta1([2:lengthOfTheta1])];
-second_theta_to_zeror = [ zeros(1, lengthOfTheta2-1) ; Theta2([2:lengthOfTheta2])];
+
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -75,6 +70,14 @@ second_theta_to_zeror = [ zeros(1, lengthOfTheta2-1) ; Theta2([2:lengthOfTheta2]
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+theta1ExcludingBias = Theta1(:, 2:end);
+theta2ExcludingBias = Theta2(:, 2:end);
+
+reg1 = sum(sum(theta1ExcludingBias .^ 2));
+reg2 = sum(sum(theta2ExcludingBias .^ 2));
+
+J = (1 / m) * sum(sum(cost)) + (lambda / (2 * m)) * (reg1 + reg2);
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
