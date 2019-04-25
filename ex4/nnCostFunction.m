@@ -42,17 +42,22 @@ Theta2_grad = zeros(size(Theta2));
 % input -> hidden
 % caculate h
 % 1.add ones in this first column
+% input 
 addedLeadingOnes=  [ones(size(X, 1), 1) X]
 input2hidden = sigmoid(addedLeadingOnes * Theta1');
-% add ones again...
+% 2. layer 2 hiden layer add ones again... 
+% activation for layer 3
 outputOfLayer2=  [ones(size(input2hidden, 1), 1) input2hidden]
+% 3. output layer
 h=  sigmoid(outputOfLayer2 * Theta2');
 
-% tmp = -y .* log(h)- (1 - y) .* log(1- h);
+% 4. using vector to represent y, 
+% y original is [2,3,4...] the actually numbers
+%  need to be say y(1) == 2, [0,0,1,0...] (computer vision)
 yVec = repmat([1:num_labels], m, 1) == repmat(y, 1, num_labels);
 
+% 5.cost function
 cost = -yVec .* log(h) - (1 - yVec) .* log(1 - h);
-
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
@@ -77,6 +82,7 @@ theta2ExcludingBias = Theta2(:, 2:end);
 reg1 = sum(sum(theta1ExcludingBias .^ 2));
 reg2 = sum(sum(theta2ExcludingBias .^ 2));
 
+% need to sum twice to get the scalar value!!
 J = (1 / m) * sum(sum(cost)) + (lambda / (2 * m)) * (reg1 + reg2);
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -85,6 +91,7 @@ J = (1 / m) * sum(sum(cost)) + (lambda / (2 * m)) * (reg1 + reg2);
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+% TODO: might be able to do the whole thing in one go with big matrics???
 delta1 = zeros(size(Theta1));
 delta2 = zeros(size(Theta2));
 for t = 1:m;
