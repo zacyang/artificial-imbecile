@@ -109,6 +109,17 @@ Theta1_grad = (1 / m) * delta1;
 Theta2_grad = (1 / m) * delta2;
 % -------------------------------------------------------------
 
+% regulartion
+
+theta1ExcludingBias = Theta1(:, 2:end);
+theta2ExcludingBias = Theta2(:, 2:end);
+
+Theta1ZeroedBias = [ zeros(size(Theta1, 1), 1) theta1ExcludingBias ];
+Theta2ZeroedBias = [ zeros(size(Theta2, 1), 1) theta2ExcludingBias ];
+
+Theta1_grad = Theta1_grad + (lambda/m)* Theta1ZeroedBias;
+
+Theta2_grad = Theta2_grad + (lambda/m)* Theta2ZeroedBias;
 % =========================================================================
 
 % Unroll gradients
