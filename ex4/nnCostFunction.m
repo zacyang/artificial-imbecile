@@ -85,23 +85,28 @@ J = (1 / m) * sum(sum(cost)) + (lambda / (2 * m)) * (reg1 + reg2);
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+delta1 = zeros(size(Theta1));
+delta2 = zeros(size(Theta2));
+for t = 1:m;
+% setp 1, comute the activations
+	h1t = h(t, :)';
+	a1t = addedLeadingOnes(t,:)';
+	a2t = outputOfLayer2(t, :)';
+	yVect = yVec(t, :)';
+
+	d3t = h1t - yVect;
+	z2t = [1; Theta1 * a1t];
+    d2t = Theta2' * d3t .* sigmoidGradient(z2t);
 
 
+    delta1 = delta1 + d2t(2:end) * a1t';
+       % op1 is 4x5, op2 is 4x4
+    delta2 = delta2 + d3t * a2t';
 
+end;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theta1_grad = (1 / m) * delta1;
+Theta2_grad = (1 / m) * delta2;
 % -------------------------------------------------------------
 
 % =========================================================================
