@@ -38,6 +38,27 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+% for 3 layers first
+% input -> hidden
+% caculate h
+% 1.add ones in this first column
+addedLeadingOnes=  [ones(size(X, 1), 1) X]
+input2hidden = sigmoid(addedLeadingOnes * Theta1');
+% add ones again...
+outputOfLayer2=  [ones(size(input2hidden, 1), 1) input2hidden]
+h=  sigmoid(outputOfLayer2 * Theta2');
+
+% tmp = -y .* log(h)- (1 - y) .* log(1- h);
+yVec = repmat([1:num_labels], m, 1) == repmat(y, 1, num_labels);
+
+cost = -yVec .* log(h) - (1 - yVec) .* log(1 - h);
+J = sum(sum(cost))/m;
+
+% set first coulmn to 0 when caculate cost 
+lengthOfTheta1 = length(Theta1);
+lengthOfTheta2 = length(Theta2);
+first_theta_to_zeror = [  zeros(1, lengthOfTheta1-1) ; Theta1([2:lengthOfTheta1])];
+second_theta_to_zeror = [ zeros(1, lengthOfTheta2-1) ; Theta2([2:lengthOfTheta2])];
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -61,8 +82,6 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
 
 
 
