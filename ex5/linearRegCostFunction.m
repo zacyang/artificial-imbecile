@@ -27,6 +27,9 @@ regularizedTheta = [ [ 0 ]; theta([2:length(theta)])];
 J = sum((h - y).^2)/(2*m) + lambda * sum(regularizedTheta.^2)/(2 * m);
 
 
+grad = (sum((h - y).* X )/m )+ lambda * regularizedTheta'/m;
+
+
 % =========================================================================
 
 grad = grad(:);
