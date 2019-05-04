@@ -21,13 +21,10 @@ grad = zeros(size(theta));
 
 
 
+h = X * theta;
+regularizedTheta = [ [ 0 ]; theta([2:length(theta)])];
 
-
-
-
-
-
-
+J = sum((h - y).^2)/(2*m) + lambda * sum(regularizedTheta.^2)/(2 * m);
 
 
 % =========================================================================
