@@ -21,8 +21,18 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+m = length(X);
 
-
+for training_id = 1:m;
+    distances = zeros(size(centroids, 1), 1);
+    % calcualte the all distances centroid
+    for centroid_id = 1: K;
+        distances(centroid_id) = sum(sum((X(training_id, :) - centroids(centroid_id, :)) .^ 2 ));
+    end
+    % get the closest
+    [x, index] = min(distances);
+	idx(training_id) = index;
+end
 
 
 
